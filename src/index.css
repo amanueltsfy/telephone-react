@@ -1,13 +1,24 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.app{
+  margin: 5px 5px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.content{
+ margin: 40px auto;
+}
+
+.table-content{
+  margin: 15px auto;
+}
+
+.table-head{
+  background-color: rgba(0, 0, 255, 0.486);
+}
+
+.table-head .MuiTableCell-root{
+color: white;
+font-size: 18px;
+}
+
+.center{
+  text-align: center !important;
 }
