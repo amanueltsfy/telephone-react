@@ -245,7 +245,7 @@ export const countries = [
   ]
 
 export const gateways = [
-  {gateway:'Message Bird',country:'USA',code:'',cost:'1',sms:'0.01',volume:'0'},
+  {gateway:'Message Bird',country:'USA',code:'',cost:'',sms:'0.01',volume:'0'},
   {gateway:'Message Bird',country:'Australia',code:'',cost:'11',sms:'0.04',volume:'0'},
   {gateway:'Message Bird',country:'Argentina',code:'',cost:'22',sms:'101',volume:'0'},
   {gateway:'Message Bird',country:'Bahrain',code:'',cost:'10',sms:'0.02',volume:'0'},

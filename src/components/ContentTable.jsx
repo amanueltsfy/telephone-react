@@ -12,7 +12,7 @@ TablePaginationActions.propTypes = {
 };
 
 
-const ContentTable = ({ data }) => {
+const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -44,8 +44,26 @@ const ContentTable = ({ data }) => {
                     ).map((row, index) => (
                         <TableRow key={index}>
                             <TableCell component="th" scope="row">{row.gateway}</TableCell>
-                            <TableCell>${row.cost}</TableCell>
-                            <TableCell>${row.sms}</TableCell>
+                            {
+                                row.cost !== '' ?
+                                    <TableCell>
+                                        {
+                                            parseInt(row.volume) !== 0 ?
+                                                `$${row.cost * selectedDedicatedNumberCount * row.volume}`
+                                                :
+                                                `$${row.cost * selectedDedicatedNumberCount}`
+                                        }
+                                    </TableCell>
+                                    : <TableCell>No dedicated numbers available</TableCell>
+                            }
+                            <TableCell>
+                                {
+                                    parseInt(row.volume) !== 0 ?
+                                        `$${(row.sms * selectedSmsCount * row.volume).toFixed(2)}`
+                                        :
+                                        `$${(row.sms * selectedSmsCount).toFixed(2)}`
+                                }
+                            </TableCell>
                             <TableCell>{row.country}</TableCell>
                         </TableRow>
                     ))}
@@ -53,7 +71,7 @@ const ContentTable = ({ data }) => {
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            rowsPerPageOptions={[5, 10, 25, 50, { label: 'All', value: -1 }]}
                             colSpan={4}
                             count={data.length}
                             rowsPerPage={rowsPerPage}

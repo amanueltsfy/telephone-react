@@ -3,49 +3,25 @@ import { Grid, Container, Autocomplete, Typography, Slider, TextField, Box } fro
 import { countries, gateways } from '../data'
 import ContentTable from './ContentTable'
 
-const getFilteredData = (data, sms = false) => {
-    let temp = []
-    if (!sms) {
-        for (let i = 0; i < data.length; i++) {
-            temp.push(data[i].cost)
-        }
-    } else {
-        for (let i = 0; i < data.length; i++) {
-            temp.push(data[i].sms)
-        }
-    }
-
-    return temp
-}
-
-
 const Content = () => {
 
     const [data, setData] = useState(gateways)
-    const [filteredData, setFilteredData] = useState(getFilteredData(gateways))
+    const [selectedSmsCount, setSelectedSmsCount] = useState(100)
+    const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
 
     const handleCountryChange = (event, value) => {
-        let temp = gateways.filter(item => item.country.includes(value.name))
         value !== null ?
-            setData(temp)
+            setData(gateways.filter(item => item.country.includes(value.name)))
             :
             setData(gateways)
-
-        setFilteredData(getFilteredData(temp))
     }
 
-    const handelNumberChange = (e, v) => {
-        setData(data.map((item, index) => {
-            item.cost = v * filteredData[index]
-            return item
-        }))
+    const handleNumberChange = (event, value) => {
+        setSelectedDedicatedNumberCount(value);
     }
 
-    const handelSMSChange = (e, v) => {
-        setData(data.map((item, index) => {
-            item.sms = v * filteredData[index]
-            return item
-        }))
+    const handleSMSChange = (event, value) => {
+        setSelectedSmsCount(value)
     }
 
     return (
@@ -80,16 +56,16 @@ const Content = () => {
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Typography>How many numbers do you need?</Typography>
-                    <Slider min={1} marks max={20} defaultValue={1} aria-label="Default" onChange={handelNumberChange} valueLabelDisplay="auto" />
+                    <Slider min={1} marks max={20} defaultValue={selectedDedicatedNumberCount} aria-label="Default" onChange={handleNumberChange} valueLabelDisplay="auto" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Typography>How many messages will you send per month?</Typography>
-                    <Slider min={100} max={11000} defaultValue={100} aria-label="Default" onChange={handelSMSChange} valueLabelDisplay="auto" />
+                    <Slider min={100} max={11000} defaultValue={selectedSmsCount} aria-label="Default" onChange={handleSMSChange} valueLabelDisplay="auto" />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant='h6' gutterBottom>Available Gateways</Typography>
                     <Typography variant='body2'>The following gateways ara available in your country:</Typography>
-                    <ContentTable data={data} />
+                    <ContentTable data={data} selectedSmsCount={selectedSmsCount} selectedDedicatedNumberCount={selectedDedicatedNumberCount} />
                 </Grid>
             </Grid>
         </Container>
