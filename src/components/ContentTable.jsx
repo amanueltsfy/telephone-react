@@ -1,9 +1,30 @@
-import React from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
-import { gateways } from '../data'
+import React, { useState } from 'react'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableFooter, TablePagination } from '@mui/material'
+import TablePaginationActions from './TablePaginationActions'
+import PropTypes from 'prop-types'
 
 
-const ContentTable = () => {
+TablePaginationActions.propTypes = {
+    count: PropTypes.number.isRequired,
+    onPageChange: PropTypes.func.isRequired,
+    page: PropTypes.number.isRequired,
+    rowsPerPage: PropTypes.number.isRequired,
+};
+
+
+const ContentTable = ({ data }) => {
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     return (
         <TableContainer component={Paper} className='table-content'>
@@ -17,15 +38,38 @@ const ContentTable = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {gateways.map((row) => (
-                        <TableRow key={row.gateway}>
+                    {(rowsPerPage > 0
+                        ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        : data
+                    ).map((row, index) => (
+                        <TableRow key={index}>
                             <TableCell component="th" scope="row">{row.gateway}</TableCell>
-                            <TableCell>{row.cost}</TableCell>
-                            <TableCell>{row.sms}</TableCell>
+                            <TableCell>${row.cost}</TableCell>
+                            <TableCell>${row.sms}</TableCell>
                             <TableCell>{row.country}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
+                <TableFooter>
+                    <TableRow>
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                            colSpan={4}
+                            count={data.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            SelectProps={{
+                                inputProps: {
+                                    'aria-label': 'rows per page',
+                                },
+                                native: true,
+                            }}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            ActionsComponent={TablePaginationActions}
+                        />
+                    </TableRow>
+                </TableFooter>
             </Table>
         </TableContainer>
     )
