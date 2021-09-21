@@ -56,10 +56,7 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                             }
                             <TableCell>
                                 {
-                                    parseInt(row.volume) !== 0 ?
-                                        `$ ${((row.costPerOutboundSMS * selectedSmsCount * row.volume).toFixed(2)).toLocaleString()}`
-                                        :
-                                        `$ ${((row.costPerOutboundSMS * selectedSmsCount).toFixed(2)).toLocaleString()}`
+                                    `$ ${((row.costPerOutboundSMS * selectedSmsCount).toFixed(2)).toLocaleString()}`
                                 }
                             </TableCell>
                             <TableCell>{row.country}</TableCell>

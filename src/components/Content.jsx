@@ -10,28 +10,59 @@ const Content = () => {
     const [selectedSmsCount, setSelectedSmsCount] = useState(100)
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
 
+    // sorting a single group of data
+    const getSortedData = (prop) => {
+        return (a, b) => {
+            if (a[prop] > b[prop]) {
+                return 1;
+            } else if (a[prop] < b[prop]) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+
     useEffect(() => {
-        let groupedData = groupBy(data, ['gateway'])
+
+        let groupedData = groupBy(gateways, ['gateway'])
         let groupedDataArray = []
         let newPriceIndex = 0
 
+        // sorting the data
         for (let index in groupedData) {
-            let minVolume = groupedData[index][0].volume
-            for (let key in groupedData[index]) {
-                if (minVolume >= selectedSmsCount) {
-                    minVolume = groupedData[index][key].volume
-                    newPriceIndex = key
-                    break
+            groupedData[index].sort(getSortedData('volume'))
+        }
+
+        for (let index in groupedData) {
+
+            for (let i = 0; i < groupedData[index].length; i++) {
+
+                let currentData = groupedData[index][i].volume;
+                let nextData
+
+                if (i === (groupedData[index].length - 1)) {
+                    nextData = groupedData[index][groupedData[index].length - 1].volume
+                } else {
+                    nextData = groupedData[index][i + 1].volume
+                }
+
+                // find the price index for a give amount of selected sms
+                if ((selectedSmsCount >= currentData && selectedSmsCount < nextData) || selectedSmsCount > nextData) {
+                    newPriceIndex = i
                 }
             }
+
             groupedDataArray.push(
                 {
                     gateway: groupedData[index][0].gateway, costPerDedicatedNumber: groupedData[index][0].costPerDedicatedNumber,
-                    costPerOutboundSMS: groupedData[index][newPriceIndex].costPerOutboundSMS, volume: minVolume
+                    costPerOutboundSMS: groupedData[index][newPriceIndex].costPerOutboundSMS, country: groupedData[index][0].country
                 })
         }
+
         setData(groupedDataArray)
+
     }, [selectedSmsCount])
+
 
     const handleCountryChange = (event, value) => {
         value !== null ?

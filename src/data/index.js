@@ -245,16 +245,17 @@ export const countries = [
   ]
 
 export const gateways = [
-  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'',costPerOutboundSMS:'0.01',volume:'150'},
-  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'11',costPerOutboundSMS:'0.04',volume:'50'},
-  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'22',costPerOutboundSMS:'101',volume:'200'},
-  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'10',costPerOutboundSMS:'0.02',volume:'600'},
-  {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'12',costPerOutboundSMS:'0.0481',volume:'0'},
-  {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'1',costPerOutboundSMS:'0.0059',volume:'0'},
-  {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'10',costPerOutboundSMS:'0.04',volume:'0'},
-  {gateway:'Clickatell',country:'Mexico',code:'',costPerDedicatedNumber:'43.33',costPerOutboundSMS:'1.30',volume:'0'},
-  {gateway:'Plivo',country:'Brazil',code:'',costPerDedicatedNumber:'6.17',costPerOutboundSMS:'0.04',volume:'0'},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.5',volume:'167'},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.14',volume:'1500'},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.1',volume:'2500'}
+  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'',costPerOutboundSMS:'0.08',volume:150},
+  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'11',costPerOutboundSMS:'0.06',volume:50},
+  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'22',costPerOutboundSMS:'0.03',volume:200},
+  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'10',costPerOutboundSMS:'0.02',volume:600},
+  {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'12',costPerOutboundSMS:'0.0481',volume:0},
+  {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'1',costPerOutboundSMS:'0.0059',volume:0},
+  {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'10',costPerOutboundSMS:'0.04',volume:0},
+  {gateway:'Clickatell',country:'Mexico',code:'',costPerDedicatedNumber:'43.33',costPerOutboundSMS:'1.30',volume:0},
+  {gateway:'Plivo',country:'Brazil',code:'',costPerDedicatedNumber:'6.17',costPerOutboundSMS:'0.04',volume:0},
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.9',volume:0},
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.5',volume:167},
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.14',volume:1500},
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.1',volume:2500}
 ]
