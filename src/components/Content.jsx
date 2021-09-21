@@ -1,13 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, Container, Autocomplete, Typography, Slider, TextField, Box } from '@mui/material'
 import { countries, gateways } from '../data'
 import ContentTable from './ContentTable'
+var groupBy = require('json-groupby')
 
 const Content = () => {
 
     const [data, setData] = useState(gateways)
     const [selectedSmsCount, setSelectedSmsCount] = useState(100)
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
+
+    useEffect(() => {
+        let tempData = groupBy(data, ['gateway'])
+        let tempArray = []
+        var new_price_index = 0
+
+        for (var index in tempData) {
+            // assumption from the video
+            // the price list has ascending order within the group
+            let min_volume = tempData[index][0].volume
+            for (var key in tempData[index]) {
+                if (min_volume >= selectedSmsCount) {
+                    min_volume = tempData[index][key].volume
+                    new_price_index = key
+                    break
+                }
+            }
+            tempArray.push(
+                {
+                    gateway: tempData[index][0].gateway, cost: tempData[index][0].cost,
+                    sms: tempData[index][new_price_index].sms, volume: min_volume
+                })
+        }
+        setData(tempArray)
+    }, [selectedSmsCount])
 
     const handleCountryChange = (event, value) => {
         value !== null ?
@@ -56,11 +82,11 @@ const Content = () => {
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Typography>How many numbers do you need?</Typography>
-                    <Slider min={1} marks max={20} defaultValue={selectedDedicatedNumberCount} aria-label="Default" onChange={handleNumberChange} valueLabelDisplay="auto" />
+                    <Slider min={1} marks max={20} value={selectedDedicatedNumberCount} aria-label="Default" onChange={handleNumberChange} valueLabelDisplay="auto" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Typography>How many messages will you send per month?</Typography>
-                    <Slider min={100} max={11000} defaultValue={selectedSmsCount} aria-label="Default" onChange={handleSMSChange} valueLabelDisplay="auto" />
+                    <Slider min={100} max={11000} value={selectedSmsCount} aria-label="Default" onChange={handleSMSChange} valueLabelDisplay="auto" />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant='h6' gutterBottom>Available Gateways</Typography>

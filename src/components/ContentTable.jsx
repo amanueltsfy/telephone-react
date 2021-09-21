@@ -45,23 +45,21 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                         <TableRow key={index}>
                             <TableCell component="th" scope="row">{row.gateway}</TableCell>
                             {
-                                row.cost !== '' ?
-                                    <TableCell>
-                                        {
-                                            parseInt(row.volume) !== 0 ?
-                                                `$${row.cost * selectedDedicatedNumberCount * row.volume}`
-                                                :
-                                                `$${row.cost * selectedDedicatedNumberCount}`
-                                        }
-                                    </TableCell>
-                                    : <TableCell>No dedicated numbers available</TableCell>
+                                <TableCell>
+                                    {
+                                        row.cost !== '' ?
+                                            `$ ${(row.cost * selectedDedicatedNumberCount).toFixed(2)}`
+                                            :
+                                            'No dedicated numbers available'
+                                    }
+                                </TableCell>
                             }
                             <TableCell>
                                 {
                                     parseInt(row.volume) !== 0 ?
-                                        `$${(row.sms * selectedSmsCount * row.volume).toFixed(2)}`
+                                        `$ ${(row.sms * selectedSmsCount * row.volume).toFixed(2)}`
                                         :
-                                        `$${(row.sms * selectedSmsCount).toFixed(2)}`
+                                        `$ ${(row.sms * selectedSmsCount).toFixed(2)}`
                                 }
                             </TableCell>
                             <TableCell>{row.country}</TableCell>

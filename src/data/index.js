@@ -245,15 +245,16 @@ export const countries = [
   ]
 
 export const gateways = [
-  {gateway:'Message Bird',country:'USA',code:'',cost:'',sms:'0.01',volume:'0'},
-  {gateway:'Message Bird',country:'Australia',code:'',cost:'11',sms:'0.04',volume:'0'},
-  {gateway:'Message Bird',country:'Argentina',code:'',cost:'22',sms:'101',volume:'0'},
-  {gateway:'Message Bird',country:'Bahrain',code:'',cost:'10',sms:'0.02',volume:'0'},
+  {gateway:'Message Bird',country:'Argentina',code:'',cost:'',sms:'0.01',volume:'50'},
+  {gateway:'Message Bird',country:'Argentina',code:'',cost:'11',sms:'0.04',volume:'150'},
+  {gateway:'Message Bird',country:'Argentina',code:'',cost:'22',sms:'101',volume:'200'},
+  {gateway:'Message Bird',country:'Argentina',code:'',cost:'10',sms:'0.02',volume:'600'},
   {gateway:'Vonage',country:'Australia',code:'',cost:'12',sms:'0.0481',volume:'0'},
-  {gateway:'Vonage',country:'Canada',code:'',cost:'1',sms:'0.0059',volume:'0'},
-  {gateway:'Vonage',country:'Denmark',code:'',cost:'10',sms:'0.04',volume:'0'},
+  {gateway:'Vonage',country:'Australia',code:'',cost:'1',sms:'0.0059',volume:'0'},
+  {gateway:'Vonage',country:'Australia',code:'',cost:'10',sms:'0.04',volume:'0'},
   {gateway:'Clickatell',country:'Mexico',code:'',cost:'43.33',sms:'1.30',volume:'0'},
   {gateway:'Plivo',country:'Brazil',code:'',cost:'6.17',sms:'0.04',volume:'0'},
-  {gateway:'MessageMedia USA Inc',country:'New Zealand',code:'',cost:'35',sms:'0.10',volume:'167'},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',cost:'34',sms:'0.14',volume:'0'}
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',cost:'35',sms:'0.5',volume:'167'},
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',cost:'34',sms:'0.14',volume:'1500'},
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',cost:'34',sms:'0.1',volume:'2500'}
 ]
