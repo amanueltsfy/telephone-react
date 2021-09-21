@@ -47,8 +47,8 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                             {
                                 <TableCell>
                                     {
-                                        row.cost !== '' ?
-                                            `$ ${(row.cost * selectedDedicatedNumberCount).toFixed(2)}`
+                                        row.costPerDedicatedNumber !== '' ?
+                                            `$ ${(row.costPerDedicatedNumber * selectedDedicatedNumberCount).toFixed(2)}`
                                             :
                                             'No dedicated numbers available'
                                     }
@@ -57,9 +57,9 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                             <TableCell>
                                 {
                                     parseInt(row.volume) !== 0 ?
-                                        `$ ${(row.sms * selectedSmsCount * row.volume).toFixed(2)}`
+                                        `$ ${((row.costPerOutboundSMS * selectedSmsCount * row.volume).toFixed(2)).toLocaleString()}`
                                         :
-                                        `$ ${(row.sms * selectedSmsCount).toFixed(2)}`
+                                        `$ ${((row.costPerOutboundSMS * selectedSmsCount).toFixed(2)).toLocaleString()}`
                                 }
                             </TableCell>
                             <TableCell>{row.country}</TableCell>

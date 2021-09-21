@@ -11,28 +11,26 @@ const Content = () => {
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
 
     useEffect(() => {
-        let tempData = groupBy(data, ['gateway'])
-        let tempArray = []
-        var new_price_index = 0
+        let groupedData = groupBy(data, ['gateway'])
+        let groupedDataArray = []
+        let newPriceIndex = 0
 
-        for (var index in tempData) {
-            // assumption from the video
-            // the price list has ascending order within the group
-            let min_volume = tempData[index][0].volume
-            for (var key in tempData[index]) {
-                if (min_volume >= selectedSmsCount) {
-                    min_volume = tempData[index][key].volume
-                    new_price_index = key
+        for (let index in groupedData) {
+            let minVolume = groupedData[index][0].volume
+            for (let key in groupedData[index]) {
+                if (minVolume >= selectedSmsCount) {
+                    minVolume = groupedData[index][key].volume
+                    newPriceIndex = key
                     break
                 }
             }
-            tempArray.push(
+            groupedDataArray.push(
                 {
-                    gateway: tempData[index][0].gateway, cost: tempData[index][0].cost,
-                    sms: tempData[index][new_price_index].sms, volume: min_volume
+                    gateway: groupedData[index][0].gateway, costPerDedicatedNumber: groupedData[index][0].costPerDedicatedNumber,
+                    costPerOutboundSMS: groupedData[index][newPriceIndex].costPerOutboundSMS, volume: minVolume
                 })
         }
-        setData(tempArray)
+        setData(groupedDataArray)
     }, [selectedSmsCount])
 
     const handleCountryChange = (event, value) => {
