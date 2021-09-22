@@ -10,48 +10,49 @@ const Content = () => {
     const [selectedSmsCount, setSelectedSmsCount] = useState(100)
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
 
-    // sorting a single group of data
-    const getSortedData = (prop) => {
+
+    const getSortedData = (assocIndex) => {
         return (a, b) => {
-            if (a[prop] > b[prop]) {
+            if (a[assocIndex] > b[assocIndex]) {
                 return 1;
-            } else if (a[prop] < b[prop]) {
+            } else if (a[assocIndex] < b[assocIndex]) {
                 return -1;
             }
             return 0;
         }
     }
 
-    useEffect(() => {
+    const handlePriceChange = () => {
+        let groupedData = groupBy(gateways, ['gateway']) // return object list
+        let groupedDataArray = []  // the same as gatewayCostRecordToUse 
+        let newPriceIndex = 0   // the default index will be 0, if there are no multiple gateways exists
 
-        let groupedData = groupBy(gateways, ['gateway'])
-        let groupedDataArray = []
-        let newPriceIndex = 0
-
-        // sorting the data
+        // sort out the inner array
         for (let index in groupedData) {
             groupedData[index].sort(getSortedData('volume'))
         }
 
-        for (let index in groupedData) {
+        for (let index in groupedData) {    // iterate object list
 
-            for (let i = 0; i < groupedData[index].length; i++) {
+            for (let innerIndex = 0; innerIndex < groupedData[index].length; innerIndex++) {   // the same as flatMap and it grants the selected volume is two consecutive value cuz it is already sorted out
 
-                let currentData = groupedData[index][i].volume;
-                let nextData
+                let currentVolume = groupedData[index][innerIndex].volume
+                let nextVolume
 
-                if (i === (groupedData[index].length - 1)) {
-                    nextData = groupedData[index][groupedData[index].length - 1].volume
-                } else {
-                    nextData = groupedData[index][i + 1].volume
-                }
+                innerIndex === (groupedData[index].length - 1) ?
+                    nextVolume = groupedData[index][groupedData[index].length - 1].volume :
+                    nextVolume = groupedData[index][innerIndex + 1].volume
 
-                // find the price index for a give amount of selected sms
-                if ((selectedSmsCount >= currentData && selectedSmsCount < nextData) || selectedSmsCount > nextData) {
-                    newPriceIndex = i
+                /* 
+                    AND condition has a boundary => [ ) 
+                    OR condition helps to include whatever the selectedsmsvalue has a value beyond the maximum volume 
+                */
+                if ((selectedSmsCount >= currentVolume && selectedSmsCount < nextVolume) || selectedSmsCount > nextVolume) {
+                    newPriceIndex = innerIndex
                 }
             }
 
+            // the same as gatewayCostRecordToUse 
             groupedDataArray.push(
                 {
                     gateway: groupedData[index][0].gateway, costPerDedicatedNumber: groupedData[index][0].costPerDedicatedNumber,
@@ -60,15 +61,19 @@ const Content = () => {
         }
 
         setData(groupedDataArray)
+    }
 
+    useEffect(() => {
+        handlePriceChange()
     }, [selectedSmsCount])
 
 
     const handleCountryChange = (event, value) => {
+        handlePriceChange()
         value !== null ?
-            setData(gateways.filter(item => item.country.includes(value.name)))
+            setData(data.filter(item => item.country.includes(value.name)))
             :
-            setData(gateways)
+            setData(data)
     }
 
     const handleNumberChange = (event, value) => {
