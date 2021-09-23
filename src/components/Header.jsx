@@ -16,7 +16,7 @@ const Header = () => {
                     <Message />
                 </IconButton>
                 <Typography variant='h6' width='100%' className='center'>
-                    Communication Network Price Analyzer
+                    SMS Gateway comparison
                 </Typography>
             </Toolbar>
         </AppBar>

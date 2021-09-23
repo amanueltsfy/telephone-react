@@ -4,6 +4,7 @@ import TablePaginationActions from './TablePaginationActions'
 import PropTypes from 'prop-types'
 
 
+
 TablePaginationActions.propTypes = {
     count: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
@@ -32,36 +33,41 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                 <TableHead className='table-head'>
                     <TableRow>
                         <TableCell>Gateways</TableCell>
-                        <TableCell>Cost for Numbers</TableCell>
-                        <TableCell>Cost for Message</TableCell>
-                        <TableCell>Country</TableCell>
+                        <TableCell align='center'>Cost for {'<n>'} numbers</TableCell>
+                        <TableCell align='center'>Cost for {'<N>'} Messages</TableCell>
+                        <TableCell align='center'>Total Cost</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {(rowsPerPage > 0
-                        ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        : data
-                    ).map((row, index) => (
-                        <TableRow key={index}>
-                            <TableCell component="th" scope="row">{row.gateway}</TableCell>
-                            {
-                                <TableCell>
+                    {data.length !== 0 ?
+                        (rowsPerPage > 0
+                            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            : data
+                        ).map((row, index) => (
+                            <TableRow key={index}>
+                                <TableCell component="th" scope="row">{row.gateway}</TableCell>
+                                {
+                                    <TableCell align='center'>
+                                        {
+                                            row.costPerDedicatedNumber !== '' ?
+                                                `$ ${((row.costPerDedicatedNumber * selectedDedicatedNumberCount).toFixed(2)).toLocaleString()}`
+                                                :
+                                                'No dedicated numbers available'
+                                        }
+                                    </TableCell>
+                                }
+                                <TableCell align='center'>
                                     {
-                                        row.costPerDedicatedNumber !== '' ?
-                                            `$ ${(row.costPerDedicatedNumber * selectedDedicatedNumberCount).toFixed(2)}`
-                                            :
-                                            'No dedicated numbers available'
+                                        `$ ${((row.costPerOutboundSMS * selectedSmsCount).toFixed(2)).toLocaleString()}`
                                     }
                                 </TableCell>
-                            }
-                            <TableCell>
-                                {
-                                    `$ ${((row.costPerOutboundSMS * selectedSmsCount).toFixed(2)).toLocaleString()}`
-                                }
-                            </TableCell>
-                            <TableCell>{row.country}</TableCell>
-                        </TableRow>
-                    ))}
+                                <TableCell align='center'>
+                                    {parseInt(row.total).toFixed(2).toLocaleString()}
+                                </TableCell>
+                            </TableRow>
+                        )) :
+                        <TableRow><TableCell>Please select one of the countries from the dropdown</TableCell></TableRow>
+                    }
                 </TableBody>
                 <TableFooter>
                     <TableRow>

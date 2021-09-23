@@ -1,58 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Container, Autocomplete, Typography, Slider, TextField, Box } from '@mui/material'
-import { countries, gateways } from '../data'
+import { countries, gateways, marks } from '../data'
 import ContentTable from './ContentTable'
+import axios from 'axios'
 var groupBy = require('json-groupby')
+const _ = require('lodash')
+
 
 const Content = () => {
 
     const [data, setData] = useState(gateways)
     const [selectedSmsCount, setSelectedSmsCount] = useState(100)
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
+    const [country, setCountry] = useState(null)
+    const [showen, setShowen] = useState(false)
 
-
-    // const handlePriceChange = () => {
-    //     let groupedData = groupBy(gateways, ['gateway']) // return object list
-    //     let groupedDataArray = []  // the same as gatewayCostRecordToUse 
-    //     let newPriceIndex = 0   // the default index will be 0, if there are no multiple gateways exists
-
-    //     // sort out the inner array
-    //     for (let index in groupedData) {
-    //         groupedData[index].sort(getSortedData('volume'))
-    //     }
-
-    //     for (let index in groupedData) {    // iterate object list
-
-    //         for (let innerIndex = 0; innerIndex < groupedData[index].length; innerIndex++) {   // the same as flatMap and it grants the selected volume is two consecutive value cuz it is already sorted out
-
-    //             let currentVolume = groupedData[index][innerIndex].volume
-    //             let nextVolume
-
-    //             innerIndex === (groupedData[index].length - 1) ?
-    //                 nextVolume = groupedData[index][groupedData[index].length - 1].volume :
-    //                 nextVolume = groupedData[index][innerIndex + 1].volume
-
-    //             /* 
-    //                 AND condition has a boundary => [ ) 
-    //                 OR condition helps to include whatever the selectedsmsvalue has a value beyond the maximum volume 
-    //             */
-    //             if ((selectedSmsCount >= currentVolume && selectedSmsCount < nextVolume) || selectedSmsCount > nextVolume) {
-    //                 newPriceIndex = innerIndex
-    //             }
-    //         }
-
-    //         // the same as gatewayCostRecordToUse 
-    //         groupedDataArray.push(
-    //             {
-    //                 gateway: groupedData[index][0].gateway, costPerDedicatedNumber: groupedData[index][0].costPerDedicatedNumber,
-    //                 costPerOutboundSMS: groupedData[index][newPriceIndex].costPerOutboundSMS, country: groupedData[index][0].country
-    //             })
-    //     }
-
-    //     setData(groupedDataArray)
-    // }
-
-    const handlePriceChange = () => {
+    const handlePriceChange = async () => {
         let groupedData = groupBy(gateways, ['gateway'])
         let groupedDataToArray = []
 
@@ -60,35 +23,56 @@ const Content = () => {
             groupedDataToArray.push(groupedData[index])
         }
 
-
-
         const gatewayData = groupedDataToArray.flatMap(gatewayData => {
             let biggestVolume = -1
-            let gatewayCostRecordToUse = []
+            let gatewayCostRecordToUse = null
 
             for (const gatewayCostRecord of gatewayData) {
                 if (selectedSmsCount > gatewayCostRecord.volume && gatewayCostRecord.volume > biggestVolume) {
-                    gatewayCostRecordToUse.push(gatewayCostRecord)
+                    gatewayCostRecordToUse = {
+                        ...gatewayCostRecord, total: (selectedSmsCount * gatewayCostRecord.costPerOutboundSMS
+                            + selectedDedicatedNumberCount * parseInt(gatewayCostRecord.costPerDedicatedNumber))
+                    }
+                    biggestVolume = gatewayCostRecord.volume
                 }
             }
-
             return gatewayCostRecordToUse
         })
 
-        setData(gatewayData)
+
+        setData(_.orderBy(gatewayData.filter(item => item.country.includes(country)), ['total']))
+
+        // if (!showen) {
+        //     await axios.get('https://ipapi.co/json/').then((response) => {
+        //         setCountry({ name: response.data.country_name })
+        //     }).catch((error) => { setShowen(true) });
+        // }
     }
 
     useEffect(() => {
+        //country !== null ? handlePriceChange() : setData([])
         handlePriceChange()
-    }, [selectedSmsCount])
+    }, [selectedDedicatedNumberCount, selectedSmsCount, country])
 
 
     const handleCountryChange = (event, value) => {
-        handlePriceChange()
-        value !== null ?
+
+        if (value !== null) {
             setData(data.filter(item => item.country.includes(value.name)))
-            :
+            setCountry(value.name)
+        } {
             setData(data)
+        }
+
+
+        // if (value !== null) {
+        //     if (!showen) {
+        //         setData(data.filter(item => item.country.includes(value.name)))
+        //         setShowen(true)
+        //     } else {
+        //         setData(gateways.filter(item => item.country.includes(value.name)))
+        //     }
+        // }
     }
 
     const handleNumberChange = (event, value) => {
@@ -104,6 +88,7 @@ const Content = () => {
             <Grid container justifyContent='space-between' spacing={4}>
                 <Grid item xs={12} md={3}>
                     <Autocomplete
+                        //value={country}
                         id="country-select-demo"
                         options={countries}
                         autoHighlight
@@ -129,9 +114,9 @@ const Content = () => {
                         )}
                     />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={4}>
                     <Typography>How many numbers do you need?</Typography>
-                    <Slider min={1} marks max={20} value={selectedDedicatedNumberCount} aria-label="Default" onChange={handleNumberChange} valueLabelDisplay="auto" />
+                    <Slider getAriaValueText={(value) => value} marks={marks} step={1} min={1} max={20} value={selectedDedicatedNumberCount} aria-label="Default" onChange={handleNumberChange} valueLabelDisplay="auto" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Typography>How many messages will you send per month?</Typography>
@@ -139,7 +124,7 @@ const Content = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant='h6' gutterBottom>Available Gateways</Typography>
-                    <Typography variant='body2'>The following gateways ara available in your country:</Typography>
+                    <Typography variant='body2'>The following gateways are available in your country:</Typography>
                     <ContentTable data={data} selectedSmsCount={selectedSmsCount} selectedDedicatedNumberCount={selectedDedicatedNumberCount} />
                 </Grid>
             </Grid>

@@ -246,7 +246,7 @@ export const countries = [
 
 export const gateways = [
   {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'',costPerOutboundSMS:'0.08',volume:150},
-  {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'11',costPerOutboundSMS:'0.06',volume:50},
+  {gateway:'Message Bird',country:'Australia',code:'',costPerDedicatedNumber:'11',costPerOutboundSMS:'0.06',volume:50},
   {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'22',costPerOutboundSMS:'0.03',volume:200},
   {gateway:'Message Bird',country:'Argentina',code:'',costPerDedicatedNumber:'10',costPerOutboundSMS:'0.02',volume:600},
   {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'12',costPerOutboundSMS:'0.0481',volume:0},
@@ -256,6 +256,90 @@ export const gateways = [
   {gateway:'Plivo',country:'Brazil',code:'',costPerDedicatedNumber:'6.17',costPerOutboundSMS:'0.04',volume:0},
   {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.9',volume:0},
   {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.5',volume:167},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.14',volume:1500},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.1',volume:2500}
+  {gateway:'MessageMedia USA Inc',country:'Australia',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.14',volume:1500},
+  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.1',volume:2500},
+  {gateway:'Vonage',country:'Ethiopia',code:'ET',costPerDedicatedNumber:'1',costPerOutboundSMS:'0.0059',volume:0},
 ]
+
+export const marks = [
+  {
+    value: 1,
+    label: '1',
+  },
+  {
+    value: 2,
+    label: '2',
+  },
+  {
+    value: 3,
+    label: '3',
+  },
+  {
+    value: 4,
+    label: '4',
+  },
+  {
+    value: 5,
+    label: '5',
+  },
+  {
+    value: 6,
+    label: '6',
+  },
+  {
+    value: 7,
+    label: '7',
+  },
+  {
+    value: 8,
+    label: '8',
+  },
+  {
+    value: 9,
+    label: '9',
+  },
+  {
+    value: 10,
+    label: '10',
+  },
+  {
+    value: 11,
+    label: '11',
+  },
+  {
+    value: 12,
+    label: '12',
+  },
+  {
+    value: 13,
+    label: '13',
+  },
+  {
+    value: 14,
+    label: '14',
+  },
+  {
+    value: 15,
+    label: '15',
+  },
+  {
+    value: 16,
+    label: '16',
+  },
+  {
+    value: 17,
+    label: '17',
+  },
+  {
+    value: 18,
+    label: '18',
+  },
+  {
+    value: 19,
+    label: '19',
+  },
+  {
+    value: 20,
+    label: '20',
+  }
+];
