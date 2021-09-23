@@ -33,8 +33,8 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                 <TableHead className='table-head'>
                     <TableRow>
                         <TableCell>Gateways</TableCell>
-                        <TableCell align='center'>Cost for {'<n>'} numbers</TableCell>
-                        <TableCell align='center'>Cost for {'<N>'} Messages</TableCell>
+                        <TableCell align='center'>Cost for {data.length} numbers</TableCell>
+                        <TableCell align='center'>Cost for {data.length} Messages</TableCell>
                         <TableCell align='center'>Total Cost</TableCell>
                     </TableRow>
                 </TableHead>
@@ -66,7 +66,7 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                                 </TableCell>
                             </TableRow>
                         )) :
-                        <TableRow><TableCell>Please select one of the countries from the dropdown</TableCell></TableRow>
+                        <TableRow><TableCell>Data not found!</TableCell></TableRow>
                     }
                 </TableBody>
                 <TableFooter>

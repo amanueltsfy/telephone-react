@@ -13,9 +13,8 @@ const Content = () => {
     const [selectedSmsCount, setSelectedSmsCount] = useState(100)
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
     const [country, setCountry] = useState(null)
-    const [showen, setShowen] = useState(false)
 
-    const handlePriceChange = async () => {
+    const handlePriceChange = () => {
         let groupedData = groupBy(gateways, ['gateway'])
         let groupedDataToArray = []
 
@@ -39,40 +38,24 @@ const Content = () => {
             return gatewayCostRecordToUse
         })
 
-
         setData(_.orderBy(gatewayData.filter(item => item.country.includes(country)), ['total']))
-
-        // if (!showen) {
-        //     await axios.get('https://ipapi.co/json/').then((response) => {
-        //         setCountry({ name: response.data.country_name })
-        //     }).catch((error) => { setShowen(true) });
-        // }
     }
 
+    // exe only at 1st mount
     useEffect(() => {
-        //country !== null ? handlePriceChange() : setData([])
-        handlePriceChange()
+        axios.get('https://ipapi.co/json/').then((response) => {
+            setCountry(response.data.country_name)
+        }).catch((error) => { setCountry(null) });
+    }, [])
+
+    // other changes 
+    useEffect(() => {
+        handlePriceChange();
     }, [selectedDedicatedNumberCount, selectedSmsCount, country])
 
 
     const handleCountryChange = (event, value) => {
-
-        if (value !== null) {
-            setData(data.filter(item => item.country.includes(value.name)))
-            setCountry(value.name)
-        } {
-            setData(data)
-        }
-
-
-        // if (value !== null) {
-        //     if (!showen) {
-        //         setData(data.filter(item => item.country.includes(value.name)))
-        //         setShowen(true)
-        //     } else {
-        //         setData(gateways.filter(item => item.country.includes(value.name)))
-        //     }
-        // }
+        value !== null ? setCountry(value.name) : setCountry(null)
     }
 
     const handleNumberChange = (event, value) => {
@@ -88,7 +71,6 @@ const Content = () => {
             <Grid container justifyContent='space-between' spacing={4}>
                 <Grid item xs={12} md={3}>
                     <Autocomplete
-                        //value={country}
                         id="country-select-demo"
                         options={countries}
                         autoHighlight
