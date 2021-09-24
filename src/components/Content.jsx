@@ -12,7 +12,7 @@ const Content = () => {
     const [data, setData] = useState(gateways)
     const [selectedSmsCount, setSelectedSmsCount] = useState(100)
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
-    const [country, setCountry] = useState(null)
+    const [country, setCountry] = useState('')
 
     const handlePriceChange = () => {
         let groupedData = groupBy(gateways, ['gateway'])
@@ -24,7 +24,7 @@ const Content = () => {
 
         const gatewayData = groupedDataToArray.flatMap(gatewayData => {
             let biggestVolume = -1
-            let gatewayCostRecordToUse = null
+            let gatewayCostRecordToUse = []
 
             for (const gatewayCostRecord of gatewayData) {
                 if (selectedSmsCount > gatewayCostRecord.volume && gatewayCostRecord.volume > biggestVolume) {
@@ -38,14 +38,14 @@ const Content = () => {
             return gatewayCostRecordToUse
         })
 
-        setData(_.orderBy(gatewayData.filter(item => item.country.includes(country)), ['total']))
+        setData(_.orderBy(gatewayData.filter(item => item.country.includes(country.name)), ['total']))
     }
 
     // exe only at 1st mount
     useEffect(() => {
         axios.get('https://ipapi.co/json/').then((response) => {
-            setCountry(response.data.country_name)
-        }).catch((error) => { setCountry(null) });
+            setCountry({ name: response.data.country_name })
+        }).catch((error) => { setCountry('') });
     }, [])
 
     // other changes 
@@ -55,7 +55,7 @@ const Content = () => {
 
 
     const handleCountryChange = (event, value) => {
-        value !== null ? setCountry(value.name) : setCountry(null)
+        value !== null ? setCountry({ name: value.name }) : setCountry('')
     }
 
     const handleNumberChange = (event, value) => {
@@ -71,6 +71,7 @@ const Content = () => {
             <Grid container justifyContent='space-between' spacing={4}>
                 <Grid item xs={12} md={3}>
                     <Autocomplete
+                        value={country}
                         id="country-select-demo"
                         options={countries}
                         autoHighlight
