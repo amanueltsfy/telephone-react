@@ -228,7 +228,7 @@ export const countries = [
     {name: 'Ukraine', code: 'UA'}, 
     {name: 'United Arab Emirates', code: 'AE'}, 
     {name: 'United Kingdom', code: 'GB'}, 
-    {name: 'United States America', code: 'USA'}, 
+    {name: 'United States America', code: 'US'}, 
     {name: 'United States Minor Outlying Islands', code: 'UM'}, 
     {name: 'Uruguay', code: 'UY'}, 
     {name: 'Uzbekistan', code: 'UZ'}, 
@@ -254,11 +254,11 @@ export const gateways = [
   {gateway:'Vonage',country:'Australia',code:'',costPerDedicatedNumber:'10',costPerOutboundSMS:'0.04',volume:0},
   {gateway:'Clickatell',country:'Mexico',code:'',costPerDedicatedNumber:'43.33',costPerOutboundSMS:'1.30',volume:0},
   {gateway:'Plivo',country:'Brazil',code:'',costPerDedicatedNumber:'6.17',costPerOutboundSMS:'0.04',volume:0},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.9',volume:0},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.5',volume:167},
+  {gateway:'MessageMedia USA Inc',country:'United States America',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.9',volume:0},
+  {gateway:'MessageMedia USA Inc',country:'United States America',code:'',costPerDedicatedNumber:'35',costPerOutboundSMS:'0.5',volume:167},
   {gateway:'MessageMedia USA Inc',country:'Australia',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.14',volume:1500},
-  {gateway:'MessageMedia USA Inc',country:'USA',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.1',volume:2500},
-  {gateway:'Vonage',country:'Ethiopia',code:'ET',costPerDedicatedNumber:'1',costPerOutboundSMS:'0.0059',volume:0},
+  {gateway:'MessageMedia USA Inc',country:'United States America',code:'',costPerDedicatedNumber:'34',costPerOutboundSMS:'0.1',volume:2500},
+  {gateway:'Vonage',country:'Ethiopia',code:'ET',costPerDedicatedNumber:'1',costPerOutboundSMS:'0.0059',volume:0}
 ]
 
 export const marks = [

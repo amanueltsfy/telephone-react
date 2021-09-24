@@ -12,7 +12,7 @@ const Content = () => {
     const [data, setData] = useState(gateways)
     const [selectedSmsCount, setSelectedSmsCount] = useState(100)
     const [selectedDedicatedNumberCount, setSelectedDedicatedNumberCount] = useState(1)
-    const [country, setCountry] = useState('')
+    const [country, setCountry] = useState(null)
 
     const handlePriceChange = () => {
         let groupedData = groupBy(gateways, ['gateway'])
@@ -27,7 +27,7 @@ const Content = () => {
             let gatewayCostRecordToUse = []
 
             for (const gatewayCostRecord of gatewayData) {
-                if (selectedSmsCount > gatewayCostRecord.volume && gatewayCostRecord.volume > biggestVolume) {
+                if (selectedSmsCount > gatewayCostRecord.volume && gatewayCostRecord.volume > biggestVolume && gatewayCostRecord.country === country.name) {
                     gatewayCostRecordToUse = {
                         ...gatewayCostRecord, total: (selectedSmsCount * gatewayCostRecord.costPerOutboundSMS
                             + selectedDedicatedNumberCount * parseInt(gatewayCostRecord.costPerDedicatedNumber))
@@ -38,24 +38,24 @@ const Content = () => {
             return gatewayCostRecordToUse
         })
 
-        setData(_.orderBy(gatewayData.filter(item => item.country.includes(country.name)), ['total']))
+        setData(_.orderBy(gatewayData, ['total']))
     }
 
     // exe only at 1st mount
     useEffect(() => {
         axios.get('https://ipapi.co/json/').then((response) => {
-            setCountry({ name: response.data.country_name })
-        }).catch((error) => { setCountry('') });
+            setCountry({ name: response.data.country_name, code: response.data.country_code })
+        }).catch((error) => { setCountry(null) });
     }, [])
 
     // other changes 
     useEffect(() => {
-        handlePriceChange();
+        country !== null ? handlePriceChange() : setData([]);
     }, [selectedDedicatedNumberCount, selectedSmsCount, country])
 
 
     const handleCountryChange = (event, value) => {
-        value !== null ? setCountry({ name: value.name }) : setCountry('')
+        value !== null ? setCountry(value) : setCountry(null)
     }
 
     const handleNumberChange = (event, value) => {
@@ -103,7 +103,7 @@ const Content = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Typography>How many messages will you send per month?</Typography>
-                    <Slider min={100} max={11000} value={selectedSmsCount} aria-label="Default" onChange={handleSMSChange} valueLabelDisplay="auto" />
+                    <Slider aria-label="Always visible" min={100} max={11000} value={selectedSmsCount} onChange={handleSMSChange} valueLabelDisplay="on" />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant='h6' gutterBottom>Available Gateways</Typography>
