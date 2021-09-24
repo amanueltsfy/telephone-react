@@ -27,17 +27,21 @@ const Content = () => {
             let gatewayCostRecordToUse = []
 
             for (const gatewayCostRecord of gatewayData) {
-                if (selectedSmsCount > gatewayCostRecord.volume && gatewayCostRecord.volume > biggestVolume && gatewayCostRecord.country === country.name) {
+                if (selectedSmsCount > gatewayCostRecord.minimum_volume && gatewayCostRecord.minimum_volume > biggestVolume && gatewayCostRecord.country === country.name) {
                     gatewayCostRecordToUse = {
-                        ...gatewayCostRecord, total: (selectedSmsCount * gatewayCostRecord.costPerOutboundSMS
-                            + selectedDedicatedNumberCount * parseInt(gatewayCostRecord.costPerDedicatedNumber))
+                        ...gatewayCostRecord,
+                        total: (
+                            gatewayCostRecord.cost_per_dedicated_number_per_month_usd !== "" ?
+                                (selectedSmsCount * parseFloat((gatewayCostRecord.outbound_sms_costs_usd.toString().replace("$", "")))
+                                    + selectedDedicatedNumberCount * parseFloat(gatewayCostRecord.cost_per_dedicated_number_per_month_usd.toString().replace("$", ""))) :
+                                (selectedSmsCount * parseFloat(gatewayCostRecord.outbound_sms_costs_usd.toString().replace("$", "")))
+                        )
                     }
-                    biggestVolume = gatewayCostRecord.volume
+                    biggestVolume = gatewayCostRecord.minimum_volume
                 }
             }
             return gatewayCostRecordToUse
         })
-
         setData(_.orderBy(gatewayData, ['total']))
     }
 

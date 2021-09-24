@@ -33,8 +33,8 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                 <TableHead className='table-head'>
                     <TableRow>
                         <TableCell>Gateways</TableCell>
-                        <TableCell align='center'>Cost for {data.length} numbers</TableCell>
-                        <TableCell align='center'>Cost for {data.length} Messages</TableCell>
+                        <TableCell align='center'>Cost for {selectedDedicatedNumberCount} numbers</TableCell>
+                        <TableCell align='center'>Cost for {selectedSmsCount} messages</TableCell>
                         <TableCell align='center'>Total Cost</TableCell>
                     </TableRow>
                 </TableHead>
@@ -49,8 +49,8 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                                 {
                                     <TableCell align='center'>
                                         {
-                                            row.costPerDedicatedNumber !== '' ?
-                                                `$ ${((row.costPerDedicatedNumber * selectedDedicatedNumberCount).toFixed(2)).toLocaleString()}`
+                                            row.cost_per_dedicated_number_per_month_usd !== '' ?
+                                                `$ ${((parseFloat(row.cost_per_dedicated_number_per_month_usd.toString().replace("$", "")) * selectedDedicatedNumberCount).toFixed(2)).toLocaleString()}`
                                                 :
                                                 'No dedicated numbers available'
                                         }
@@ -58,7 +58,7 @@ const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) 
                                 }
                                 <TableCell align='center'>
                                     {
-                                        `$ ${((row.costPerOutboundSMS * selectedSmsCount).toFixed(2)).toLocaleString()}`
+                                        `$ ${((parseFloat(row.outbound_sms_costs_usd.toString().replace("$", "")) * selectedSmsCount).toFixed(2)).toLocaleString()}`
                                     }
                                 </TableCell>
                                 <TableCell align='center'>
