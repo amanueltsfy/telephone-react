@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Container, Autocomplete, Typography, Slider, TextField, Box } from '@mui/material'
-import { countries, gateways, marks } from '../data'
+import { countries, gateways, numberMarks, messageMarks } from '../data'
 import ContentTable from './ContentTable'
 import axios from 'axios'
 var groupBy = require('json-groupby')
@@ -32,7 +32,7 @@ const Content = () => {
                         ...gatewayCostRecord,
                         total: (
                             gatewayCostRecord.cost_per_dedicated_number_per_month_usd !== "" ?
-                                (selectedSmsCount * parseFloat((gatewayCostRecord.outbound_sms_costs_usd.toString().replace("$", "")))
+                                (selectedSmsCount * parseFloat(gatewayCostRecord.outbound_sms_costs_usd.toString().replace("$", ""))
                                     + selectedDedicatedNumberCount * parseFloat(gatewayCostRecord.cost_per_dedicated_number_per_month_usd.toString().replace("$", ""))) :
                                 (selectedSmsCount * parseFloat(gatewayCostRecord.outbound_sms_costs_usd.toString().replace("$", "")))
                         )
@@ -103,11 +103,13 @@ const Content = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Typography>How many numbers do you need?</Typography>
-                    <Slider getAriaValueText={(value) => value} marks={marks} step={1} min={1} max={20} value={selectedDedicatedNumberCount} aria-label="Default" onChange={handleNumberChange} valueLabelDisplay="auto" />
+                    <Slider marks={numberMarks} step={1} min={1} max={20} value={selectedDedicatedNumberCount}
+                        aria-label="Default" onChange={handleNumberChange} valueLabelDisplay="auto" />
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <Typography>How many messages will you send per month?</Typography>
-                    <Slider aria-label="Always visible" min={100} max={11000} value={selectedSmsCount} onChange={handleSMSChange} valueLabelDisplay="on" />
+                    <Slider marks={messageMarks} min={100} max={11000} value={selectedSmsCount}
+                        onChange={handleSMSChange} aria-label="Default" valueLabelDisplay="auto" />
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant='h6' gutterBottom>Available Gateways</Typography>

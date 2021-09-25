@@ -4312,7 +4312,7 @@ export const gateways = [
   }
 ]
 
-export const marks = [
+export const numberMarks = [
   {
     value: 1,
     label: '1',
@@ -4394,3 +4394,8 @@ export const marks = [
     label: '20',
   }
 ];
+
+export const messageMarks = [
+  {value:0,label:'0'},{value:2000,label:'2000'},{value:4000,label:'4000'},{value:6000,label:'6000'},
+  {value:8000,label:'8000'},{value:9500,label:'9500'},{value:11000,label:'11000'}
+]

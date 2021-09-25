@@ -16,7 +16,7 @@ TablePaginationActions.propTypes = {
 const ContentTable = ({ data, selectedSmsCount, selectedDedicatedNumberCount }) => {
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
