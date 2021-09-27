@@ -1,3 +1,4 @@
-# Messanger React App
+# SMS Gatway Analyzer React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Published @GitHub Page
+ https://amanueltsfy.github.io/telephone-react/
